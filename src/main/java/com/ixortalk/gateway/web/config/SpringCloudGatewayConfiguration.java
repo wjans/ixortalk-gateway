@@ -21,29 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.ixortalk.gateway;
+package com.ixortalk.gateway.web.config;
 
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.rules.SpringClassRule;
-import org.springframework.test.context.junit4.rules.SpringMethodRule;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+@Configuration
+public class SpringCloudGatewayConfiguration {
 
-@SpringBootTest(classes = GatewayApplication.class, webEnvironment = RANDOM_PORT)
-@ActiveProfiles("test")
-public abstract class AbstractIntegrationTest {
-
-    @ClassRule
-    public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
-
-    @Rule
-    public final SpringMethodRule springMethodRule = new SpringMethodRule();
-
-    @LocalServerPort
-    protected int port;
-
+    @Bean
+    public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route(p -> p
+                        .path("/assetmgmt")
+                        .uri("http://localhost:8021/assetmgmt"))
+                .route(p -> p
+                        .path("/uaa")
+                        .uri("http://localhost:9929/uaa"))
+                .build();
+    }
 }

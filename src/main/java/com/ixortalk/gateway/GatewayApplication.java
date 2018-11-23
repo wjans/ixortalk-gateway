@@ -23,17 +23,16 @@
  */
 package com.ixortalk.gateway;
 
-import java.net.InetAddress;
-
-import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
-import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
+import com.ixortalk.gateway.security.IxorTalkProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
+
+import java.net.InetAddress;
 
 /**
  *
@@ -49,9 +48,7 @@ import org.springframework.core.env.SimpleCommandLinePropertySource;
  *
  */
 @SpringBootApplication
-@EnableZuulProxy
-@EnableSpringBootMetricsCollector
-@EnablePrometheusEndpoint
+@EnableConfigurationProperties(IxorTalkProperties.class)
 public class GatewayApplication {
 
 	public static final String DEV = "dev";
